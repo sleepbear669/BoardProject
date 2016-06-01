@@ -2,6 +2,7 @@ package gom.sleep.cave.project.board.model;
 
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,5 +19,14 @@ public class Member {
     @GeneratedValue
     private long id;
 
+    @Column(unique = true)
+    private String memberId;
 
+    private String password;
+
+    private String name;
+
+    private String description;
+
+    private String profileImage;
 }

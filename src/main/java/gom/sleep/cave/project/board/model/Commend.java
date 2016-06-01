@@ -17,4 +17,6 @@ public class Commend {
     @Id
     @GeneratedValue
     private long id;
+
+
 }
