@@ -1,10 +1,6 @@
 package gom.sleep.cave.project.board.model;
 
 import lombok.Data;
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -27,8 +23,11 @@ public class Comment {
 
     private String content;
 
-    @Generated(GenerationTime.INSERT)
-    @CreatedDate
-    @DateTimeFormat(pattern = "yyyy.MM.dd hh:mm")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date registeredDate;
+
+    @PrePersist
+    void onCreate() {
+        this.registeredDate = new Date();
+    }
 }
