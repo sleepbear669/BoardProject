@@ -1,0 +1,22 @@
+ul{
+    padding: 0;
+}
+.box{
+    display: flex;
+    height: 80px;
+    -webkit-align-items: center;
+    align-items: center;
+    border-bottom: 1px solid black;
+    border-bottom: 1px solid black;
+}
+img{
+    height: 50px;
+    width: 80px;
+}
+span{
+    display: flex;
+    flex: 1;
+    -webkit-justify-content: center;
+    justify-content: center;
+}
+
