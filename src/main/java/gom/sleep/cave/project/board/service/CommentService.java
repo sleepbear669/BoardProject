@@ -20,4 +20,7 @@ public class CommentService {
         return commentRepository.findByMemberId(id);
     }
 
+    public List<Comment> getComment() {
+        return commentRepository.findAll();
+    }
 }

@@ -5,6 +5,7 @@ import gom.sleep.cave.project.board.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +19,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
  */
 @RestController
 @RequestMapping("/api")
+@CrossOrigin
 public class CommentController {
 
     @Autowired
@@ -28,5 +30,9 @@ public class CommentController {
         final List<Comment> comment = commentService.getComment(id);
         return new ResponseEntity<>(comment, HttpStatus.OK);
     }
-
+    @RequestMapping(value = "comments", method = GET)
+    public ResponseEntity<?> fetchComment() {
+        final List<Comment> comment = commentService.getComment();
+        return new ResponseEntity<>(comment, HttpStatus.OK);
+    }
 }
