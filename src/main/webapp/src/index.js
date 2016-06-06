@@ -3,11 +3,17 @@
  */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/App'
-const appElement = document.getElementById('app');
+import { Router, Route, Link ,hashHistory} from 'react-router'
+
+import App from './components/App/App'
+import SignUp from './components/SignUp/SignUp'
 
 ReactDOM.render(
-    <App />
-    ,
-    appElement
+    (
+        <Router history={hashHistory}>
+            <Route path="/" component={App}></Route>
+            <Route path="/signUp" component={SignUp}/>
+        </Router>
+    ),
+    document.getElementById('app')
 );
