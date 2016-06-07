@@ -44,7 +44,7 @@ class CommentInfo extends React.Component{
     render(){
         return(
             <li className={style.box}>
-                <img src={"http://117.17.102.241:8080/" + this.props.comment.member.profileImage}/>
+                <img src={"http://117.17.102.241:8080/static/image/" + this.props.comment.member.profileImage}/>
                 <span>{this.props.comment.member.name}</span>
                 <span>{this.props.comment.content}</span>
                 <span>{this.props.comment.registeredDate}</span>
