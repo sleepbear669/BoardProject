@@ -7,9 +7,9 @@ import {Link} from 'react-router';
 
 export default class NavBar extends React.Component {
 
-    constructor(props){
-        super(props);
-    }
+    handlerWriteClick = () => {
+        window.open('/');
+    };
 
     render() {
         return (
@@ -17,7 +17,7 @@ export default class NavBar extends React.Component {
                 <button>
                     <Link to='/signUp'>회원가입</Link>
                 </button>
-                <button onclick={this.handlerWriteClick}>글쓰기</button>
+                <button onTouchTap={this.handlerWriteClick}>글쓰기</button>
             </div>
         )
 

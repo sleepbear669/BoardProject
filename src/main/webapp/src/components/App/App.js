@@ -5,13 +5,16 @@ import React from 'react';
 import Comments from './../Comments/Comments';
 import NavBar from './../NavBar/NavBar';
 
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 class App extends React.Component {
     render() {
         return (
-            <div>
+            <MuiThemeProvider muiTheme={getMuiTheme()}>
                 <NavBar/>
                 <Comments/>
-            </div>
+            </MuiThemeProvider>
         )
     }
 }

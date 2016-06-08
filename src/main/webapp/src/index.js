@@ -5,6 +5,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, Link ,hashHistory} from 'react-router'
 
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
+
 import App from './components/App/App'
 import SignUp from './components/SignUp/SignUp'
 
