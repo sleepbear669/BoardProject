@@ -5,6 +5,6 @@
 import axios from 'axios';
 
 export default axios.create({
-    baseURL: 'http://117.17.102.241:8080/api',
+    baseURL: 'http://localhost:8080/api',
     timeout: 3000
 });
