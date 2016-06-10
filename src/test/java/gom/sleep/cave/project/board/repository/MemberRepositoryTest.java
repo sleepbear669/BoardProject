@@ -26,7 +26,7 @@ public class MemberRepositoryTest {
     public void testMemberGet() throws Exception {
         // Given
         final long id = 1;
-        final String memberId = "sleepbear669";
+        final String accountName = "sleepbear669";
         final String name = "잠자는곰";
         final String password = "gom0119!1";
 
@@ -35,7 +35,7 @@ public class MemberRepositoryTest {
 
         // Then
         assertThat(fetchMember.getId(), is(id));
-        assertThat(fetchMember.getMemberId(), is(memberId));
+        assertThat(fetchMember.getAccountName(), is(accountName));
         assertThat(fetchMember.getName(), is(name));
         assertThat(fetchMember.getPassword(), is(password));
 

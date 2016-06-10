@@ -14,7 +14,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const mapStateToProps = (state) => {
     return {
-        comments : state.comments
+        comments : state.commentReducer.comments
     }
 };
 
@@ -49,5 +49,7 @@ class App extends React.Component {
             </MuiThemeProvider>
         )
     }
+
+
 }
 export default App;

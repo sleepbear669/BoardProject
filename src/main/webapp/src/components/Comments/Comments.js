@@ -11,15 +11,6 @@ import style from './Comments.css'
 
 class Comments extends React.Component {
 
-    componentDidMount() {
-        axios.get('/comments')
-            .then(result => {
-                this.setState({
-                    comments: result.data
-                })
-            })
-    }
-
     constructor(props) {
         super(props);
         this.state = {

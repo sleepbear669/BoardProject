@@ -2,26 +2,24 @@
  * Created by sleepbear on 2016. 6. 3..
  */
 import React from 'react';
+import ReactDOM from 'react-dom';
 import style from './NavBar.css';
-import {Link} from 'react-router';
+import { Router, Route, Link ,hashHistory} from 'react-router';
 
 import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 
-export default class NavBar extends React.Component {
-
-    constructor(props){
-        super(props);
-        this.state = {
-            open: false,
-            comment: " "
-        };
-    }
+class NavBar extends React.Component {
+    state = {
+        open: false,
+        comment: " "
+    };
 
     handleWriteClick = () => {
-        this.setState({open: true});
+        this.context.router.push('/login');
     };
+
     handleClose = () => {
         this.setState({open: false});
     };
@@ -68,3 +66,9 @@ export default class NavBar extends React.Component {
 
     }
 }
+
+NavBar.contextTypes = {
+    router: React.PropTypes.object.isRequired
+};
+
+export default NavBar;

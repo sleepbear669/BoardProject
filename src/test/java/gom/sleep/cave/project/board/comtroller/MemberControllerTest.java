@@ -48,22 +48,22 @@ public class MemberControllerTest {
         // Given
 
         final Member member = new Member();
-        member.setMemberId("testMemberId");
-        member.setPassword("testpassword");
+        member.setAccountName("testMemberId");
+        member.setPassword("testPassword");
         member.setName("testName");
         member.setDescription("testDescription");
 
         // When
         final ResultActions result = mockMvc.perform(post("/api/signUp")
                 .contentType(MediaType.MULTIPART_FORM_DATA)
-                .param("memberId", "testMemberId")
-                .param("password", "testPasserWord")
+                .param("accountName", "testAccountName")
+                .param("password", "testPassword")
                 .param("name", "testName")
                 .param("description", "testDescription"));
 
         // Then
         result.andDo(print());
         result.andExpect(status().isOk());
-        result.andExpect(jsonPath("$.memberId", is("testMemberId")));
+        result.andExpect(jsonPath("$.accountName", is("testAccountName")));
     }
 }

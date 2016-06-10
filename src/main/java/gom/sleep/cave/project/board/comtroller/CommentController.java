@@ -19,18 +19,19 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @RestController
 @RequestMapping("/api")
 @CrossOrigin
+@SessionAttributes("member")
 public class CommentController {
 
     @Autowired
     private CommentService commentService;
 
     @RequestMapping(value = "comments/{id}", method = GET)
-    public ResponseEntity<?> fetchComment(@PathVariable("id") Long id) {
+    public ResponseEntity<?> fetchComments(@PathVariable("id") Long id) {
         final List<Comment> comment = commentService.getComment(id);
         return new ResponseEntity<>(comment, HttpStatus.OK);
     }
     @RequestMapping(value = "comments", method = GET)
-    public ResponseEntity<?> fetchComment() {
+    public ResponseEntity<?> fetchComments() {
         final List<Comment> comment = commentService.getComment();
         return new ResponseEntity<>(comment, HttpStatus.OK);
     }

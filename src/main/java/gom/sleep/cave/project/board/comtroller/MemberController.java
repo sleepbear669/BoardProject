@@ -2,7 +2,9 @@ package gom.sleep.cave.project.board.comtroller;
 
 
 import gom.sleep.cave.project.board.model.Member;
+import gom.sleep.cave.project.board.model.MemberDto;
 import gom.sleep.cave.project.board.service.MemberService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,14 +24,18 @@ import java.nio.file.Paths;
 @RestController
 @RequestMapping("/api")
 @CrossOrigin
+@SessionAttributes("member")
 public class MemberController {
 
     @Autowired
     private MemberService memberService;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @RequestMapping(value = "/signUp", method = RequestMethod.POST)
-    public ResponseEntity<?> signUp(Member member, @RequestParam(value = "upload", required = false)MultipartFile upload) throws IOException {
-        String fileName = null;
+    public ResponseEntity<?> signUp(MemberDto.Create create, @RequestParam(value = "upload", required = false)MultipartFile upload) throws IOException {
+        String fileName;
         if (upload != null) {
             fileName = upload.getOriginalFilename();
             String fileDirectory = "src/main/webapp/static/image";
@@ -41,9 +47,19 @@ public class MemberController {
         } else {
             fileName = "simple_profile.jpeg";
         }
-        member.setProfileImage(fileName);
+        create.setProfileImage(fileName);
+        final Member member = modelMapper.map(create, Member.class);
         final Member addedMember = memberService.addMember(member);
         return new ResponseEntity<>(addedMember, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.PUT)
+    public ResponseEntity<?> login(MemberDto.Login login ){
+        Member loginMember = memberService.login(login);
+        if (loginMember != null) {
+            return new ResponseEntity<>(loginMember, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }
 

@@ -6,37 +6,44 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from '../../utils/AxiosClient';
 import { Router, Route, Link ,hashHistory} from 'react-router';
+import { bindActionCreators } from 'redux';
+import {connect} from 'react-redux'
+
+import {signUp} from '../../actions/User'
+
+const mapDispatchToProps =  (dispatch) => {
+    return {
+        signUp : (formData) => {
+            dispatch(signUp(formData));
+        }
+    }
+};
+
 
 class SignUp extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            memberData: {
-                memberId: "",
-                password: "",
-                name: "",
-                description: ""
-            },
-            profileImage: {}
-        };
-        this.fileUpload = this.fileUpload.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleJoinClick = this.handleJoinClick.bind(this);
-    }
+    state = {
+        memberData: {
+            memberId: "",
+            password: "",
+            name: "",
+            description: ""
+        },
+        profileImage: {}
+    };
 
-    fileUpload() {
+    fileUpload = () => {
         var tempObj = {profileImage: this.refs.fileData.files[0]};
         this.setState(tempObj);
-    }
+    };
 
-    handleChange(e) {
+    handleChange = (e) => {
         var tempMember = {memberData: this.state.memberData};
         tempMember.memberData[e.target.name] = e.target.value;
         this.setState(tempMember);
-    }
+    };
 
-    handleJoinClick() {
+    handleJoinClick = () => {
         var formData = new FormData();
         let member = this.state.memberData;
         for (let key in member) {
@@ -44,18 +51,9 @@ class SignUp extends React.Component {
         }
 
         formData.append('upload', this.state.profileImage);
-        axios.post('/signUp', formData)
-            .then(result => {
-                console.log(result);
-            }).catch(function (res) {
-            if (res instanceof Error) {
-                console.log(res.message);
-            } else {
-                console.log(res.data);
-            }
-        });
+        this.props.signUp(formData);
         this.context.router.push('/');
-    }
+    };
 
     render() {
         return (
@@ -99,7 +97,9 @@ class SignUp extends React.Component {
     }
 }
 
+
+
 SignUp.contextTypes = {
     router: React.PropTypes.object.isRequired
 };
-export default SignUp;
+export default connect(undefined, mapDispatchToProps)(SignUp);
