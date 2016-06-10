@@ -26,7 +26,6 @@ targetCompatibility = 1.8
 dependencies {
     compile group: 'org.projectlombok', name: 'lombok', version: '1.16.8'
 
-    testCompile("junit:junit")
     compile("org.springframework.boot:spring-boot-devtools")
     compile("org.springframework.boot:spring-boot-starter-web")
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
@@ -35,6 +34,9 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-test")
     compile('mysql:mysql-connector-java:5.1.37')
 
+    compile group: 'org.modelmapper', name: 'modelmapper', version: '0.7.6'
+
+    testCompile("junit:junit")
     testCompile group: 'junit', name: 'junit', version: '4.11'
     testCompile group: 'com.jayway.jsonpath', name: 'json-path', version: '2.2.0'
 }
