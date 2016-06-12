@@ -4,6 +4,7 @@
 
 import axios from '../utils/AxiosClient'
 
+
 export const LOGIN = "LOGIN";
 export const SIGN_UP = "SIGN_UP";
 
@@ -24,18 +25,9 @@ export function signUp(formData){
 
 }
 
-export function login(userInfo){
-    return dispatch => {
-        axios.put('/login',userInfo )
-            .then(result => {
-                console.log(result);
-                dispatch(() => {
-                    type : SIGN_UP
-                    member : result.data
-                });
-                this.context.router.push("/");
-            }).catch(function (res) {
-                console.log(res);
-        });
+export function login(member){
+    return {
+        type : LOGIN,
+        loginMember : member
     }
 }

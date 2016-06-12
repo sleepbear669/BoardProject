@@ -13,16 +13,14 @@ class Comments extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            comments: []
-        };
     }
 
     render() {
+        const {comments} = this.props.comments;
         return (
             <ul>
                 {
-                    this.props.comments.map((comment, i) => {
+                    comments.map((comment, i) => {
                         return (
                             <CommentInfo comment={comment}
                                          key={comment.id}

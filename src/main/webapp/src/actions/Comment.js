@@ -1,26 +1,28 @@
 import axios from '../utils/AxiosClient'
 
 export const FETCH = "FETCH";
-export const WRITE = "WRITE";
+export const UPDATE = "UPDATE";
+export const INIT_COMMENT = "INIT_COMMENT";
 
-function update (comments){
+function fetch (comments){
     return {
         type: FETCH,
-        comments : comments
+        comments : comments,
     };
 }
 
-export function fetchComments(){
+export function initComment(){
     return dispatch => {
         axios.get('/comments')
             .then(result => {
-                dispatch(update(result.data));
+                dispatch(fetch(result.data));
             });
     }
 }
 
-export function write(){
+
+export function update(){
     return {
-        type: WRITE
+        type: UPDATE
     };
 }

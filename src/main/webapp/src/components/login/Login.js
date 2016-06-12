@@ -4,8 +4,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
@@ -29,26 +27,19 @@ class Login extends React.Component {
     };
 
     onLogin = () => {
-        this.props.login(this.state.userInfo);
-    };
-
-    send = () => {
-        console.log(this.state.userInfo);
-        axios.post('/member/session', this.state.userInfo)
+        axios.put('/login',this.state.userInfo )
             .then(result => {
-                console.log(result);
-            });
+                this.props.login(result.data);
+                this.context.router.goBack();
+            }).catch(function (res) {
+            console.log(res);
+        });
     };
-
-    test = () => {
-        axios.post('/session')
-            .then(result => {
-                console.log(result);
-            });
+    onCancel = () => {
+        this.context.router.goBack();
     };
     render() {
         return (
-            <MuiThemeProvider muiTheme={getMuiTheme()}>
                 <div>
                     <TextField
                         hintText="ID"
@@ -56,7 +47,7 @@ class Login extends React.Component {
                         floatingLabelText="ID"
                         type="text"
                         onChange={this.handleChange}
-                        value={this.state.userInfo.accountId}
+                        value={this.state.userInfo.accountName}
                     /><br />
                     <TextField
                         hintText="Password"
@@ -68,14 +59,13 @@ class Login extends React.Component {
                     /><br />
                     <div>
                         <RaisedButton label="로그인" onTouchTap={this.onLogin}/>
-                        <RaisedButton label="취소"/>
-                        <RaisedButton label="test" onTouchTap={this.test}/>
-                        <RaisedButton label="send" onTouchTap={this.send}/>
+                        <RaisedButton label="취소" onTouchTap={this.onCancel}/>
                     </div>
                 </div>
-            </MuiThemeProvider>
         )
     }
 }
-
+Login.contextTypes = {
+    router: React.PropTypes.object.isRequired
+};
 export default Login;

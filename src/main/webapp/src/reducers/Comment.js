@@ -10,7 +10,9 @@ const initialState = {
 const commentReducer = (state = initialState, action) => {
     switch (action.type) {
         case FETCH :
-            return Object.assign({}, state, {comments : action.comments});
+            return Object.assign({}, state, {
+                comments : action.comments
+            });
         default :
             return state
     }

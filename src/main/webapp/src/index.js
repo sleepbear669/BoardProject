@@ -3,41 +3,32 @@
  */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, Link ,hashHistory} from 'react-router'
 import thunk from 'redux-thunk'
 
-import { createStore , applyMiddleware,combineReducers } from 'redux';
+import { createStore , applyMiddleware} from 'redux';
 import { Provider  } from 'react-redux';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
-import App from './components/app/App';
-import SignUp from './components/signUp/SignUp';
-import Login from './components/login/Login';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import commentReducer from './reducers/Comment';
-import userReducer from './reducers/User';
-
-const reducers = combineReducers({
-        commentReducer,
-        userReducer
-    }
-);
+import App from './containers/App'
+import reducer from './reducers/index';
+import configureStore from './store/configureStore';
 
 const store = createStore(
-    reducers,
+    reducer,
     applyMiddleware(thunk)
 );
-
+const testStore = configureStore();
 ReactDOM.render(
     (
-        <Provider store={store}>
-            <Router history={hashHistory}>
-                <Route path="/" component={App}/>
-                <Route path="/login" component={Login}/>
-                <Route path="/signUp" component={SignUp}/>
-            </Router>
+        <Provider store={testStore}>
+            <MuiThemeProvider muiTheme={getMuiTheme()}>
+                <App/>
+            </MuiThemeProvider>
         </Provider>
     ),
     document.getElementById('app')
