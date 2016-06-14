@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -47,7 +46,7 @@ public class CommentController {
     }
 
     @RequestMapping(value = "comments/{commentId}/member/{memberId}")
-    public ResponseEntity<?> removeComment(HttpSession httpSession ,Member member, @PathVariable("commentId") long commentId, @PathVariable("memberId") long memberId){
+    public ResponseEntity<?> removeComment(Member member, @PathVariable("commentId") long commentId, @PathVariable("memberId") long memberId){
         if (member.getId() == memberId) {
             commentService.remove(commentId);
         }
