@@ -2,6 +2,7 @@ package gom.sleep.cave.project.board.comtroller;
 
 import gom.sleep.cave.project.board.Application;
 import gom.sleep.cave.project.board.model.Member;
+import gom.sleep.cave.project.board.repository.MemberRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,6 +35,10 @@ public class MemberControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
+    @Autowired
+    private MemberRepository memberRepository;
+
+
     MockMvc mockMvc;
 
     @Before
@@ -46,12 +51,6 @@ public class MemberControllerTest {
     @Test
     public void testSignUp() throws Exception {
         // Given
-
-        final Member member = new Member();
-        member.setAccountName("testMemberId");
-        member.setPassword("testPassword");
-        member.setName("testName");
-        member.setDescription("testDescription");
 
         // When
         final ResultActions result = mockMvc.perform(post("/api/signUp")
@@ -66,4 +65,38 @@ public class MemberControllerTest {
         result.andExpect(status().isOk());
         result.andExpect(jsonPath("$.accountName", is("testAccountName")));
     }
+    @Test
+    public void testEdit() throws Exception {
+        final String accountName = "editTestAccountName";
+        final String description = "editTestDesc";
+        final String name = "editTestName";
+        final String password = "editTestPassword";
+
+        // Given
+        final Member testMember = new Member();
+        testMember.setAccountName(accountName);
+        testMember.setDescription(description);
+        testMember.setName(name);
+        testMember.setPassword(password);
+
+        final Member saveMember = memberRepository.save(testMember);
+        final String editedName = "editedTestName";
+        saveMember.setName(editedName);
+        // When
+        final ResultActions result = mockMvc.perform(post("/api/edit")
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .param("id", String.valueOf(testMember.getId()))
+                .param("accountName", testMember.getAccountName())
+                .param("password", testMember.getPassword())
+                .param("name", testMember.getName())
+                .param("description", testMember.getDescription()));
+
+        // Then
+        result.andDo(print());
+        result.andExpect(status().isOk());
+        result.andExpect(jsonPath("$.name", is(testMember.getName())));
+
+        memberRepository.delete(testMember.getId());
+    }
+
 }

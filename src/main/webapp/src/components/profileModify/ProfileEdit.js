@@ -5,22 +5,25 @@
 import React from 'react';
 import axios from '../../utils/AxiosClient';
 
-class SignUp extends React.Component {
-
-    state = {
-        memberData: {
-            accountName: "",
-            password: "",
-            name: "",
-            description: ""
-        },
-        profileImage: {}
-    };
+class ProfileEdit extends React.Component {
 
     fileUpload = () => {
         var tempObj = {profileImage: this.refs.fileData.files[0]};
         this.setState(tempObj);
     };
+
+    componentWillMount(){
+        let propsMember = Object.assign({},this.props.user.member);
+        console.log(this.props.user.member);
+        this.setState({
+            memberData: propsMember,
+            profileImage: {}
+        })
+    }
+
+    componentWillUnmount(){
+        console.log("componentWillUnmount");
+    }
 
     handleChange = (e) => {
         var tempMember = {memberData: this.state.memberData};
@@ -30,15 +33,15 @@ class SignUp extends React.Component {
     handleCancelClick = () => {
         this.context.router.goBack();
     };
-    handleJoinClick = () => {
+    handleEditClick = () => {
         var formData = new FormData();
         let member = this.state.memberData;
         for (let key in member) {
             formData.append(key, member[key]);
         }
         formData.append('upload', this.state.profileImage);
-
-        axios.post('/signUp', formData)
+        formData.append('id', this.props.user.member.id);
+        axios.post('/edit', formData)
             .then(result => {
                 console.log(result);
                 this.context.router.push('/');
@@ -51,11 +54,7 @@ class SignUp extends React.Component {
             <div>
                 <div>
                     <span>아이디</span>
-                    <input
-                        type="text"
-                        name="accountName"
-                        value={this.state.memberData.id}
-                        onChange={this.handleChange}/>
+                    <span>{this.state.memberData.accountName}</span>
                 </div>
                 <div>
                     <span>비밀번호</span>
@@ -68,7 +67,7 @@ class SignUp extends React.Component {
                     <span>이름</span>
                     <input type="text"
                            name="name"
-                           value={this.state.memberData.name}
+                           Value={this.state.memberData.name}
                            onChange={this.handleChange}/>
                 </div>
                 <div>
@@ -82,16 +81,15 @@ class SignUp extends React.Component {
                     <span>이미지</span>
                     <input type="file" name="upload" ref="fileData" onChange={this.fileUpload}/>
                 </div>
-                <button onClick={this.handleJoinClick}>가입</button>
+                <img src={"http://localhost:8080/static/image/" + this.props.user.member.profileImage}/>
+                <button onClick={this.handleEditClick}>수정</button>
                 <button onClick={this.handleCancelClick}>취소</button>
             </div>
         )
     }
 }
 
-
-
-SignUp.contextTypes = {
+ProfileEdit.contextTypes = {
     router: React.PropTypes.object.isRequired
 };
-export default SignUp;
+export default ProfileEdit;

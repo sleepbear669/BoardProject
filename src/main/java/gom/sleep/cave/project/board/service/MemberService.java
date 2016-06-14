@@ -27,4 +27,8 @@ public class MemberService {
         }
         return null;
     }
+
+    public Member edit(Member member) {
+        return memberRepository.save(member);
+    }
 }

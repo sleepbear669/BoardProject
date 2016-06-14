@@ -37,7 +37,7 @@ public class CommentController {
     }
 
     @RequestMapping(value = "comments/{memberId}", method = POST)
-    public ResponseEntity<?> writeComment(Comment comment, @PathVariable("memberId") long memberId) {
+    public ResponseEntity<?> writeComment(@RequestBody Comment comment, @PathVariable("memberId") long memberId) {
         final Member member = new Member();
         member.setId(memberId);
         comment.setMember(member);

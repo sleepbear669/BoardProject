@@ -17,7 +17,8 @@ class Main extends React.Component {
                         {...this.props}
                     />
                     <Comments
-                        comments={this.props.comment}
+                        {...this.props}
+
                     />
                     <WriteModal
                         {...this.props}

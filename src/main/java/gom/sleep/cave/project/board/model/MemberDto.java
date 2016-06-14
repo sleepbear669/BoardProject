@@ -26,4 +26,20 @@ public class MemberDto {
 
         private String profileImage;
     }
+
+    @Data
+    public static class Edit {
+
+        private long id;
+
+        private String accountName;
+
+        private String password;
+
+        private String name;
+
+        private String description;
+
+        private String profileImage;
+    }
 }

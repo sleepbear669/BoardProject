@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -53,13 +54,32 @@ public class MemberController {
         return new ResponseEntity<>(addedMember, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public ResponseEntity<?> edit(MemberDto.Edit edit, @RequestParam(value = "upload", required = false)MultipartFile upload) throws IOException {
+        if (upload != null) {
+            String fileName = upload.getOriginalFilename();
+            String fileDirectory = "src/main/webapp/static/image";
+            String filePath = Paths.get(fileDirectory, fileName).toString();
+            BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(
+                    new FileOutputStream(new File(filePath)));
+            bufferedOutputStream.write(upload.getBytes());
+            bufferedOutputStream.close();
+            edit.setProfileImage(fileName);
+        }
+        final Member member = modelMapper.map(edit, Member.class);
+        final Member editMember = memberService.edit(member);
+        return new ResponseEntity<>(editMember, HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/login", method = RequestMethod.PUT)
-    public ResponseEntity<?> login(MemberDto.Login login ){
-        Member loginMember = memberService.login(login);
-        if (loginMember != null) {
-            return new ResponseEntity<>(loginMember, HttpStatus.OK);
+    public ResponseEntity<?> login(HttpSession httpSession , @RequestBody MemberDto.Login login ){
+        Member member = memberService.login(login);
+        httpSession.setAttribute("member", member);
+        if (member != null) {
+            return new ResponseEntity<>(member, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+
 }
 
