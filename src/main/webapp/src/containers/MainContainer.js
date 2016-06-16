@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 
 import Main from '../components/main/Main'
 
-import {initComment} from '../actions/Comment'
+import {fetchComment} from '../actions/Comment'
 
 const propTypes = {
     dispatch: React.PropTypes.func
@@ -18,8 +18,7 @@ const propTypes = {
 class MainContainer extends React.Component{
 
     componentDidMount(){
-        const { dispatch } = this.props;
-        dispatch(initComment());
+        this.props.fetch();
     }
 
     render(){
@@ -31,11 +30,18 @@ class MainContainer extends React.Component{
 
 const mapStateToProps = (state) => {
     return {
-        comment : state.commentReducer,
+        comments : state.commentReducer,
         user : state.userReducer,
         modal : state.modalReducer
     };
 };
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetch : (pageNum = 0) => {
+            dispatch(fetchComment(pageNum))
+        }
+    }
+};
 MainContainer.propTypes = propTypes;
-export default connect(mapStateToProps)(MainContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);

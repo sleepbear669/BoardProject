@@ -12,7 +12,7 @@ import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 
 import {close} from '../../actions/Modal';
-import {initComment} from '../../actions/Comment';
+import {fetchComment} from '../../actions/Comment';
 
 class WriteModal extends React.Component {
 
@@ -78,7 +78,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(close());
         },
         update: () => {
-            dispatch(initComment());
+            dispatch(fetchComment());
         }
     }
 };

@@ -1,28 +1,20 @@
 import axios from '../utils/AxiosClient'
 
 export const FETCH = "FETCH";
-export const UPDATE = "UPDATE";
-export const INIT_COMMENT = "INIT_COMMENT";
 
 function fetch (comments){
     return {
         type: FETCH,
-        comments : comments,
+        comments : comments._embedded.responseList,
+        page: comments.page
     };
 }
 
-export function initComment(){
+export function fetchComment(pageNum){
     return dispatch => {
-        axios.get('/comments')
+        axios.get('/comments?page=' + pageNum)
             .then(result => {
                 dispatch(fetch(result.data));
             });
     }
-}
-
-
-export function update(){
-    return {
-        type: UPDATE
-    };
 }

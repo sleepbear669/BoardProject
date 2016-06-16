@@ -4,14 +4,16 @@
 import {FETCH , WRITE} from '../actions/Comment'
 
 const initialState = {
-    comments : []
+    comments : [],
+    page : {}
 };
 
 const commentReducer = (state = initialState, action) => {
     switch (action.type) {
         case FETCH :
             return Object.assign({}, state, {
-                comments : action.comments
+                comments : action.comments,
+                page : action.page
             });
         default :
             return state

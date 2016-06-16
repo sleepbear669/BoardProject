@@ -1,15 +1,22 @@
 package gom.sleep.cave.project.board.comtroller;
 
 import gom.sleep.cave.project.board.model.Comment;
+import gom.sleep.cave.project.board.model.CommentDto;
 import gom.sleep.cave.project.board.model.Member;
 import gom.sleep.cave.project.board.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.data.domain.Sort.Direction;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -27,13 +34,15 @@ public class CommentController {
 
     @RequestMapping(value = "comments/{id}", method = GET)
     public ResponseEntity<?> fetchComments(@PathVariable("id") Long id) {
-        final List<Comment> comment = commentService.getComment(id);
-        return new ResponseEntity<>(comment, HttpStatus.OK);
+        final List<Comment> responses = commentService.getComment(id);
+        return new ResponseEntity<>(responses, HttpStatus.OK);
     }
     @RequestMapping(value = "comments", method = GET)
-    public ResponseEntity<?> fetchComments() {
-        final List<Comment> comment = commentService.getComment();
-        return new ResponseEntity<>(comment, HttpStatus.OK);
+    public HttpEntity<?> fetchComments(
+            @PageableDefault(sort = { "registeredDate" }, direction = Direction.DESC, size = 7)Pageable pageable,
+            PagedResourcesAssembler assembler) {
+        final Page<CommentDto.Response> responses = commentService.getComment(pageable);
+        return new ResponseEntity<>(assembler.toResource(responses), HttpStatus.OK);
     }
 
     @RequestMapping(value = "comments/{memberId}", method = POST)
@@ -47,9 +56,7 @@ public class CommentController {
 
     @RequestMapping(value = "comments/{commentId}/member/{memberId}")
     public ResponseEntity<?> removeComment(Member member, @PathVariable("commentId") long commentId, @PathVariable("memberId") long memberId){
-        if (member.getId() == memberId) {
-            commentService.remove(commentId);
-        }
+        commentService.remove(commentId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

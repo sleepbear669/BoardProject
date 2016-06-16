@@ -1,6 +1,7 @@
 package gom.sleep.cave.project.board.comtroller;
 
 import gom.sleep.cave.project.board.model.Marker;
+import gom.sleep.cave.project.board.model.Member;
 import gom.sleep.cave.project.board.service.MarkerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ public class MarkerController {
     private MarkerService markerService;
 
     @RequestMapping(value = "markers", method = RequestMethod.POST)
-    public ResponseEntity<?> marking(@RequestBody Marker marker){
+    public ResponseEntity<?> marking(Member member, @RequestBody Marker marker){
         markerService.add(marker);
         return new ResponseEntity<>(HttpStatus.OK);
     }
