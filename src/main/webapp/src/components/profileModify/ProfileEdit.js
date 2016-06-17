@@ -4,6 +4,19 @@
 
 import React from 'react';
 import axios from '../../utils/AxiosClient';
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
+
+const editStyle = {
+    box : {
+        display: 'flex',
+        alignItems : 'center',
+        justifyContent: 'center'
+    },
+    item : {
+        flex : 1
+    }
+};
 
 class ProfileEdit extends React.Component {
 
@@ -14,15 +27,10 @@ class ProfileEdit extends React.Component {
 
     componentWillMount(){
         let propsMember = Object.assign({},this.props.user.member);
-        console.log(this.props.user.member);
         this.setState({
             memberData: propsMember,
             profileImage: {}
         })
-    }
-
-    componentWillUnmount(){
-        console.log("componentWillUnmount");
     }
 
     handleChange = (e) => {
@@ -43,7 +51,7 @@ class ProfileEdit extends React.Component {
         formData.append('id', this.props.user.member.id);
         axios.post('/edit', formData)
             .then(result => {
-                console.log(result);
+                this.props.edit(result.data);
                 this.context.router.push('/');
             }).catch(function (res) {
         });
@@ -51,39 +59,47 @@ class ProfileEdit extends React.Component {
 
     render() {
         return (
-            <div>
+            <div style={editStyle.box}>
                 <div>
-                    <span>아이디</span>
-                    <span>{this.state.memberData.accountName}</span>
+                    <div>
+                        <span>아이디</span>
+                        <TextField
+                            type="type"
+                            defaultValue={this.state.memberData.accountName}
+                            disabled={true}/>
+                    </div>
+                    <div>
+                        <span>비밀번호</span>
+                        <TextField
+                            type="password"
+                            name="password"
+                            value={this.state.memberData.password}
+                            onChange={this.handleChange}/>
+                    </div>
+                    <div>
+                        <span>이름</span>
+                        <TextField
+                            type="text"
+                            name="name"
+                            value={this.state.memberData.name}
+                            onChange={this.handleChange}/>
+                    </div>
+                    <div>
+                        <span>소개</span>
+                        <TextField
+                            type="text"
+                            name="description"
+                            value={this.state.memberData.description}
+                            onChange={this.handleChange}/>
+                    </div>
+                    <div>
+                        <span>이미지</span>
+                        <input type="file" name="upload" ref="fileData" onChange={this.fileUpload}/>
+                    </div>
+                    <img src={"http://localhost:8080/static/image/" + this.props.user.member.profileImage}/>
+                    <button onClick={this.handleEditClick}>수정</button>
+                    <button onClick={this.handleCancelClick}>취소</button>
                 </div>
-                <div>
-                    <span>비밀번호</span>
-                    <input type="password"
-                           name="password"
-                           value={this.state.memberData.password}
-                           onChange={this.handleChange}/>
-                </div>
-                <div>
-                    <span>이름</span>
-                    <input type="text"
-                           name="name"
-                           Value={this.state.memberData.name}
-                           onChange={this.handleChange}/>
-                </div>
-                <div>
-                    <span>소개</span>
-                    <input type="text"
-                           name="description"
-                           value={this.state.memberData.description}
-                           onChange={this.handleChange}/>
-                </div>
-                <div>
-                    <span>이미지</span>
-                    <input type="file" name="upload" ref="fileData" onChange={this.fileUpload}/>
-                </div>
-                <img src={"http://localhost:8080/static/image/" + this.props.user.member.profileImage}/>
-                <button onClick={this.handleEditClick}>수정</button>
-                <button onClick={this.handleCancelClick}>취소</button>
             </div>
         )
     }

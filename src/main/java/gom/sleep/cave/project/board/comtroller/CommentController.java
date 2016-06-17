@@ -39,7 +39,7 @@ public class CommentController {
     }
     @RequestMapping(value = "comments", method = GET)
     public HttpEntity<?> fetchComments(
-            @PageableDefault(sort = { "registeredDate" }, direction = Direction.DESC, size = 7)Pageable pageable,
+            @PageableDefault(sort = { "registeredDate" }, direction = Direction.DESC, size = 5)Pageable pageable,
             PagedResourcesAssembler assembler) {
         final Page<CommentDto.Response> responses = commentService.getComment(pageable);
         return new ResponseEntity<>(assembler.toResource(responses), HttpStatus.OK);

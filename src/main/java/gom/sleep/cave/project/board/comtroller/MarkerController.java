@@ -22,7 +22,8 @@ public class MarkerController {
 
     @RequestMapping(value = "markers", method = RequestMethod.POST)
     public ResponseEntity<?> marking(Member member, @RequestBody Marker marker){
-        markerService.add(marker);
-        return new ResponseEntity<>(HttpStatus.OK);
+        final Marker add = markerService.add(marker);
+        HttpStatus statusCode = add != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+        return new ResponseEntity<>(statusCode);
     }
 }

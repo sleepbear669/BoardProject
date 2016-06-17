@@ -12,6 +12,6 @@ public interface MarkerRepository extends JpaRepository<Marker, Long> {
 
     Long countByCommentIdAndMarkerType(long commentId, Marker.MarkerType markerType);
 
-
+    Marker findByCommentIdAndMemberId(long commentId, long MemberId);
 
 }

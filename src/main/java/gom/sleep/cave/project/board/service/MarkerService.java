@@ -15,7 +15,11 @@ public class MarkerService {
     private MarkerRepository markerRepository;
 
 
-    public void add(Marker marker) {
-        markerRepository.save(marker);
+    public Marker add(Marker marker) {
+        final Marker alreadyAdded = markerRepository.findByCommentIdAndMemberId(marker.getCommentId(), marker.getMemberId());
+        if (alreadyAdded == null) {
+            return markerRepository.save(marker);
+        }
+        return null;
     }
 }

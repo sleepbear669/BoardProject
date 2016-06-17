@@ -1,4 +1,3 @@
-
 /**
  * Created by sleepbear on 2016. 6. 11..
  */
@@ -6,22 +5,23 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 
-import Main from '../components/main/Main'
+import Main from '../components/main/Main';
 
-import {fetchComment} from '../actions/Comment'
+import {fetchComment} from '../actions/Comment';
+import {open} from '../actions/Modal';
 
 const propTypes = {
     dispatch: React.PropTypes.func
 };
 
 
-class MainContainer extends React.Component{
+class MainContainer extends React.Component {
 
-    componentDidMount(){
+    componentDidMount() {
         this.props.fetch();
     }
 
-    render(){
+    render() {
         return (
             <Main  {...this.props}/>
         )
@@ -30,16 +30,19 @@ class MainContainer extends React.Component{
 
 const mapStateToProps = (state) => {
     return {
-        comments : state.commentReducer,
-        user : state.userReducer,
-        modal : state.modalReducer
+        comments: state.commentReducer,
+        user: state.userReducer,
+        modal: state.modalReducer
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetch : (pageNum = 0) => {
+        fetch: (pageNum = 0) => {
             dispatch(fetchComment(pageNum))
+        },
+        open: () => {
+            dispatch(open());
         }
     }
 };

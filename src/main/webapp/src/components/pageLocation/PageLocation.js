@@ -4,11 +4,24 @@
 
 import React from 'react';
 
+const pageStyle = {
+    container : {
+        display : 'flex',
+        alignItems : 'center',
+        justifyContent: 'center'
+    },
+    item : {
+        fontSize : '20px',
+        display : 'inline-block',
+        margin : '0 5px 0 5px'
+    }
+};
+
 class PageLocation extends React.Component{
 
     handlePageChange = (num) => {
         return () => {
-            this.props.fetch(num);
+            if (this.props.page.number != num) this.props.fetch(num);
         };
     };
 
@@ -18,6 +31,7 @@ class PageLocation extends React.Component{
         for(let i = 0 ; i < page.totalPages; i++){
             pageNum.push(
                 (<span
+                    style={pageStyle.item}
                     onTouchTap={this.handlePageChange(i)}
                     key={i}>
                     {i + 1}
@@ -25,7 +39,7 @@ class PageLocation extends React.Component{
             );
         }
         return (
-            <div>
+            <div style={pageStyle.container}>
                 {pageNum}
             </div>
         )

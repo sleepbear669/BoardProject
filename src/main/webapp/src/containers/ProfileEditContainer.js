@@ -8,6 +8,8 @@ import {connect} from 'react-redux';
 
 import ProfileEdit from '../components/profileModify/ProfileEdit';
 
+import {edit} from '../actions/User';
+
 class ProfileModifyContainer extends React.Component {
 
     render() {
@@ -23,4 +25,12 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps)(ProfileModifyContainer);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        edit: (member) => {
+            dispatch(edit(member))
+        }
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileModifyContainer);

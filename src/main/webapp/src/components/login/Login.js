@@ -11,6 +11,17 @@ import axios from '../../utils/AxiosClient'
 
 import {login} from '../../actions/User'
 
+const loginStyle = {
+    box : {
+        display: 'flex',
+        alignItems : 'center',
+        justifyContent: 'center'
+    },
+    item : {
+        flex : 1
+    }
+};
+
 class Login extends React.Component {
 
     state = {
@@ -40,6 +51,7 @@ class Login extends React.Component {
     };
     render() {
         return (
+            <div style={loginStyle.box}>
                 <div>
                     <TextField
                         hintText="ID"
@@ -62,6 +74,7 @@ class Login extends React.Component {
                         <RaisedButton label="취소" onTouchTap={this.onCancel}/>
                     </div>
                 </div>
+            </div>
         )
     }
 }

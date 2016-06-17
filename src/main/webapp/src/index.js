@@ -20,7 +20,7 @@ ReactDOM.render(
     (
         <Provider store={store}>
             <MuiThemeProvider muiTheme={getMuiTheme()}>
-                <App/>
+                <App />
             </MuiThemeProvider>
         </Provider>
     ),

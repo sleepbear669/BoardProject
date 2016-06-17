@@ -1,7 +1,7 @@
 /**
  * Created by sleepbear on 2016. 6. 9..
  */
-import {LOGIN , SIGN_UP} from '../actions/User'
+import {LOGIN , SIGN_UP, EDIT} from '../actions/User'
 
 const initialState = {
     isLogin: false,
@@ -15,6 +15,12 @@ const userReducer = (state = initialState, action) => {
                 {
                     member : action.loginMember,
                     isLogin : true
+                }
+            );
+        case EDIT:
+            return Object.assign({}, state,
+                {
+                    member : action.loginMember
                 }
             );
         default :
